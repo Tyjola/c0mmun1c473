@@ -25,5 +25,9 @@
 ./c0mmun1c473 --filename note.txt --output encrypted_note.txt --encrypt caesar
 ```
 
+## Use :
+
+###### Execute the command with the right files and encryption's type (-f, -o, -e) and the parameters will be asked after the program is executed.
+
 
 
