@@ -23,7 +23,7 @@
 ./c0mmun1c473 -f note.txt -o encrypted_note.txt -e caesar
 ```
 ```
-./c0mmun1c473 --filename note.txt --output encrypted_note.txt --encrypt caesar
+./c0mmun1c473 --filename note.txt --output encrypted_note.txt --encrypt vigenere
 ```
 
 ## Use :
