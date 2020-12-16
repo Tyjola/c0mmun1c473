@@ -64,12 +64,12 @@ int main(int argc, char *argv[]) {
         new_content = vigenere_main(content);
     }
     else { 
-        cout << "This type of encryption is not recognized." << endl << endl;
+        cout << "This type of encryption is not recognized : " << encryption_type << endl << endl;
         return 0;
     }
 
     fcreate(new_filename, new_content);
-    cout << "Encryption has been performed correctly." << endl << endl;
+    cout << "The operation has been performed correctly." << endl << endl;
     return 1;
 }
 
