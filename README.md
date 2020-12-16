@@ -1,4 +1,4 @@
-# Commun1c473 is a tool for encrypting and decrypting text contained in a file.
+# Commun1c473 is a tool for linux for encrypting and decrypting text contained in a file.
 
 ## The supported encryption are :
 ###### - Caesar encryption
