@@ -16,9 +16,13 @@ int main(int argc, char *argv[]) {
 
     introduction();
 
+    if (argc == 1 || argc == 2) {
+        help_flag();
+        return 0;
+    }
     string filename, new_filename, encryption_type;
     for (int i = 1; i < argc; i++) {   
-        if (i + 1 != argc || argc == 2) {   
+        if (i + 1 != argc) {   
             string arg = argv[i];
 
             // Displays the help menu.
