@@ -4,6 +4,8 @@
 #include <string.h>
 
 #include "caesar.h"
+#include "vigenere.h"
+
 #include "streams.h"
 #include "introduction.h"
 #include "flags.h"
@@ -56,7 +58,10 @@ int main(int argc, char *argv[]) {
     
     string new_content;
     if (encryption_type == "caesar") {
-            new_content = caesar_main(content);
+        new_content = caesar_main(content);
+    }
+    else if (encryption_type == "vigenere") {
+        new_content = vigenere_main(content);
     }
     else { 
         cout << "This type of encryption is not recognized." << endl << endl;
@@ -64,7 +69,7 @@ int main(int argc, char *argv[]) {
     }
 
     fcreate(new_filename, new_content);
-    cout << "Encryption has been performed correctly." << endl;
+    cout << "Encryption has been performed correctly." << endl << endl;
     return 1;
 }
 

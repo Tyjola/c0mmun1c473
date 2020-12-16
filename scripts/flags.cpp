@@ -36,10 +36,11 @@ int help_flag() {
     cout << endl; 
     cout << "Example for Caesar encryption :" << endl;
     cout << "./c0mmun1c473 -f note.txt -o encrypted_note.txt -e caesar";
-    cout << "./c0mmun1c473 --filename note.txt --output encrypted_note.txt --encrypt caesar";
+    cout << "./c0mmun1c473 --filename note.txt --output encrypted_note.txt --encrypt caesar" << endl;
     cout << endl;
     cout << "The available encryption methods are :" << endl;
     cout << "- Caesar encryption" << endl;
+    cout << "- Vigenère encryption" << endl;
     cout << endl;
     return 0;
 }

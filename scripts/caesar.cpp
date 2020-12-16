@@ -17,7 +17,7 @@ int get_offset() {
 
 string caesar_encrypt(string content, int offset) {   
 
-    int beggin_ascii = 32;
+    int beggin_ascii = 33;
     int end_ascii = 126;
 
     int char_val, new_char_val;
