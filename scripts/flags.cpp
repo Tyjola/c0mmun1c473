@@ -41,6 +41,7 @@ int help_flag() {
     cout << "The available encryption methods are :" << endl;
     cout << "- Caesar encryption (-e caesar)" << endl;
     cout << "- Vigenère encryption (-e vigenere)" << endl;
+    cout << "- Affine encryption (-e affine)" << endl;
     cout << endl;
     return 0;
 }

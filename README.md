@@ -3,6 +3,7 @@
 ## The supported encryption are :
 ###### - Caesar encryption
 ###### - Vigenère encryption
+###### - Affine encryption
 
 ## Installation :
 
