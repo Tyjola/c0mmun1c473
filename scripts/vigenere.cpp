@@ -25,8 +25,8 @@ string get_key_vigenere(int way) {
     else {
         cout << "Please indicate the key for the Vigenere decryption : ";
     }
-    // getline (cin, key);
-    cin >> key;
+    cin.ignore();
+    getline(cin, key);
     cout << endl;
     if (way == 1) {
         cout << "Encryption of the file with the key : " << key << endl;

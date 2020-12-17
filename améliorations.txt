@@ -1,8 +1,6 @@
 - pour le chiffrment de césar et de vigenère, proposer l'option pour choisir le début et la fin de la liste ascii (pour avoir un césar et un vigenere traditionnel)
-- pour vigenère, proposer une phrase comme clé (impossible avec le système actuel)
 - intégrer une sécurité pour éviter de traiter des caractères qui ne sont pas dans la tables ascii :
     - qui dirait si tous les caractères du messages à chiffrer sont les bons en fonctions du chiffrement voulu et qui dit lesquels sont mauvais
     - (plus dur) qui remplacerait les caractères qui posent problemes par un caractere qui ne pose pas problemes automatiquement (é devient e, â devient a...)
 - respecter l'histoire des flags pour les options uniquement
-- ajouter une sécurité pour que lorsque l'on rentre un offset qui n'est pas un entier pour le chiffrement de césar, on ait un message d'erreur qui dit "mauvais offset".
 - ajouter un fichier config.txt pour parametrer le programme (debut et fin de ascii)

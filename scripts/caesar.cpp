@@ -11,6 +11,12 @@ int get_offset() {
     int offset;
     cout << "Please indicate the offset for Caesar's encryption : ";
     cin >> offset;
+    while(cin.fail()) {
+        cout << "The offset must be an integer : ";
+        cin.clear();
+        cin.ignore(256,'\n');
+        cin >> offset;
+    }
     return offset;
     }
 
