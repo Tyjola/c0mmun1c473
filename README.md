@@ -24,7 +24,7 @@
 ./c0mmun1c473 note.txt caesar -o encrypted_note.txt
 ```
 ```
-./c0mmun1c473 --filename note_to_encrypt.txt affine --output encrypted_note.txt
+./c0mmun1c473 note_to_encrypt.txt affine --output encrypted_note.txt
 ```
 
 ## Use :
