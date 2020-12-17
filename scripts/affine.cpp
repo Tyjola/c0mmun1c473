@@ -12,14 +12,14 @@ int end_ascii = 126;
 
 tuple<int, int> get_coefficients_affine() {
     int a,b;
-    cout << "The encryption key must be of type (a,b) (a and b integers)." << endl << endl;
+    cout << "The encryption key must be of type (a,b) (a and b integers)." << endl;
 
     cout << "Please specify the value of a : ";
     cin >> a;
     cout << "Please specify the value of b : ";
     cin >> b;
 
-    cout << endl << "Your key is : (" << a <<"," << b <<")" << endl;
+    cout << endl << "Your key is : (" << a <<"," << b <<")" << endl << endl;
     return make_tuple(a, b);
 }
 

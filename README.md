@@ -21,15 +21,15 @@
 
 ## Example :
 ```
-./c0mmun1c473 -f note.txt -o encrypted_note.txt -e caesar
+./c0mmun1c473 note.txt caesar -o encrypted_note.txt
 ```
 ```
-./c0mmun1c473 --filename note.txt --output encrypted_note.txt --encrypt vigenere
+./c0mmun1c473 --filename note_to_encrypt.txt affine --output encrypted_note.txt
 ```
 
 ## Use :
 
-###### Execute the command with the right files and encryption's type (-f, -o, -e) and the parameters will be asked after the program is executed.
+###### Execute the command with the right files and encryption's type and the parameters will be asked after the program is executed.
 
 
 
