@@ -5,6 +5,7 @@
 
 #include "caesar.h"
 #include "vigenere.h"
+#include "affine.h"
 
 #include "streams.h"
 #include "introduction.h"
@@ -62,6 +63,9 @@ int main(int argc, char *argv[]) {
     }
     else if (encryption_type == "vigenere") {
         new_content = vigenere_main(content);
+    }
+    else if (encryption_type == "affine") {
+        new_content = affine_main(content);
     }
     else { 
         cout << "This type of encryption is not recognized : " << encryption_type << endl << endl;

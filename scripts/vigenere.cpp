@@ -1,12 +1,11 @@
 #include <iostream>
-// #include <string>
 
 #include "vigenere.h"
 
 using namespace std;
 
 
-int get_way() {
+int get_way_vigenere() {
     string way;
     do {
         cout << "Please specify if it is an encryption (1) or a decryption (0) : ";
@@ -18,7 +17,7 @@ int get_way() {
 }
 
 
-string get_key(int way) {
+string get_key_vigenere(int way) {
     string key;
     if (way == 1) {
         cout << "Please indicate the key for the Vigenere encryption : ";
@@ -26,6 +25,7 @@ string get_key(int way) {
     else {
         cout << "Please indicate the key for the Vigenere decryption : ";
     }
+    // getline (cin, key);
     cin >> key;
     cout << endl;
     if (way == 1) {
@@ -79,8 +79,8 @@ string vigenere_main(string content) {
     string key;
     string new_content;
 
-    way = get_way();
-    key = get_key(way);
+    way = get_way_vigenere();
+    key = get_key_vigenere(way);
     new_content = vigenere_encrypt(content, way, key);
 
     return new_content;

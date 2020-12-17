@@ -5,3 +5,4 @@
     - (plus dur) qui remplacerait les caractères qui posent problemes par un caractere qui ne pose pas problemes automatiquement (é devient e, â devient a...)
 - respecter l'histoire des flags pour les options uniquement
 - ajouter une sécurité pour que lorsque l'on rentre un offset qui n'est pas un entier pour le chiffrement de césar, on ait un message d'erreur qui dit "mauvais offset".
+- ajouter un fichier config.txt pour parametrer le programme (debut et fin de ascii)
