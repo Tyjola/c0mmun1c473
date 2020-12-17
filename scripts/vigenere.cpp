@@ -76,11 +76,12 @@ string vigenere_encrypt(string content, int way, string key) {
 string vigenere_main(string content) {
 
     int way;
-    string key;
-    string new_content;
-
     way = get_way_vigenere();
+
+    string key;
     key = get_key_vigenere(way);
+
+    string new_content;
     new_content = vigenere_encrypt(content, way, key);
 
     return new_content;
