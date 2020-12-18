@@ -18,9 +18,6 @@ int main(int argc, char *argv[]) {
 
     introduction();
 
-    int start_ascii, end_ascii;
-    tie(start_ascii, end_ascii) = ascii_range();
-
     if (argc == 1) {
         help_flag();
         return 0;
@@ -33,7 +30,6 @@ int main(int argc, char *argv[]) {
             help_flag();
             return 0;
         }
-
         if (i == 1 or i == 2) {   
             // Specifies the name of the file to encrypt.
             if (i == 1) {
@@ -44,7 +40,6 @@ int main(int argc, char *argv[]) {
                 encryption_type = argv[i];
             }
         }
-
         if (i > 2) {
             // Specifies the name of the file encrypted.
             if (arg == "-o" || arg == "--output") {
@@ -52,11 +47,9 @@ int main(int argc, char *argv[]) {
             }
         }
     }
-
     if (new_filename == "") {
         new_filename = "encrypted_"+filename;
     }
-
     int check_flag_error = flags_errors(new_filename, encryption_type);
     if (check_flag_error == 0) {return 0;}
 
@@ -66,24 +59,44 @@ int main(int argc, char *argv[]) {
     if (content == "PB") { 
         return 0;
     }
-    
+
+
+    string way_str;
+    do {
+        cout << "Please specify if it is an encryption (1) or a decryption (0) : ";
+        cin >> way_str;
+        cout << endl;
+    } while (way_str != "1" && way_str != "0");
+    int way = stoi(way_str);
+
+
+    int start_ascii, end_ascii;
+    tie(start_ascii, end_ascii) = ascii_range();
+
+
     string new_content;
     if (encryption_type == "caesar") {
-        new_content = caesar_main(content, start_ascii, end_ascii);
+        new_content = caesar_main(content, start_ascii, end_ascii, way);
     }
     else if (encryption_type == "vigenere") {
-        new_content = vigenere_main(content, start_ascii, end_ascii);
+        new_content = vigenere_main(content, start_ascii, end_ascii, way);
     }
     else if (encryption_type == "affine") {
-        new_content = affine_main(content, start_ascii, end_ascii);
+        new_content = affine_main(content, start_ascii, end_ascii, way);
     }
     else { 
         cout << "This type of encryption is not recognized : " << encryption_type << endl << endl;
         return 0;
     }
 
+
     fcreate(new_filename, new_content);
-    cout << "The operation has been performed correctly." << endl << endl;
+    if (way == 1) {
+        cout << "The encryption has been performed correctly." << endl << endl;
+    }
+    else {
+        cout << "The decryption has been performed correctly." << endl << endl;
+    }
     return 1;
 }
 

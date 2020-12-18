@@ -15,20 +15,8 @@ tuple<int, int> get_coefficients_affine() {
     cout << "Please specify the value of b : ";
     cin >> b;
 
-    cout << endl << "Your key is : (" << a <<"," << b <<")" << endl << endl;
+    cout << "Your key is : (" << a <<"," << b <<")" << endl << endl;
     return make_tuple(a, b);
-}
-
-
-int get_way_affine() {
-    string way;
-    do {
-        cout << "Please specify if it is an encryption (1) or a decryption (0) : ";
-        cin >> way;
-        cout << endl;
-    } while (way != "1" && way != "0");
-
-    return stoi(way);
 }
 
 
@@ -80,10 +68,7 @@ string affine_decrypt(string content, int a, int b, int start_ascii, int end_asc
 }
 
 
-string affine_main(string content, int start_ascii, int end_ascii) {
-
-    int way;
-    way = get_way_affine();
+string affine_main(string content, int start_ascii, int end_ascii, int way) {
 
     int a,b;
     tie(a, b) = get_coefficients_affine();

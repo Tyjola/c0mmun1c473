@@ -5,18 +5,6 @@
 using namespace std;
 
 
-int get_way_vigenere() {
-    string way;
-    do {
-        cout << "Please specify if it is an encryption (1) or a decryption (0) : ";
-        cin >> way;
-        cout << endl;
-    } while (way != "1" && way != "0");
-
-    return stoi(way);
-}
-
-
 string get_key_vigenere(int way) {
     string key;
     if (way == 1) {
@@ -27,7 +15,6 @@ string get_key_vigenere(int way) {
     }
     cin.ignore();
     getline(cin, key);
-    cout << endl;
     if (way == 1) {
         cout << "Encryption of the file with the key : " << key << endl;
     }
@@ -70,10 +57,7 @@ string vigenere_encrypt(string content, int way, string key, int start_ascii, in
 }
 
 
-string vigenere_main(string content, int start_ascii, int end_ascii) {
-
-    int way;
-    way = get_way_vigenere();
+string vigenere_main(string content, int start_ascii, int end_ascii, int way) {
 
     string key;
     key = get_key_vigenere(way);

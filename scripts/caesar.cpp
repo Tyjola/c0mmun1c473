@@ -5,18 +5,6 @@
 using namespace std;
 
 
-int get_way_caesar() {
-    string way;
-    do {
-        cout << "Please specify if it is an encryption (1) or a decryption (0) : ";
-        cin >> way;
-        cout << endl;
-    } while (way != "1" && way != "0");
-
-    return stoi(way);
-}
-
-
 int get_offset(int way) {
     
     int offset;
@@ -34,7 +22,7 @@ int get_offset(int way) {
         cin.ignore(256,'\n');
         cin >> offset;
     }
-    cout << endl << "The offset is : " << offset << endl << endl;
+    cout << "The offset is : " << offset << endl << endl;
     if (way == 0) { offset = offset * -1; }
     return offset;
     }
@@ -69,10 +57,7 @@ string caesar_encrypt(string content, int offset, int way, int start_ascii, int 
 
 
 
-string caesar_main(string content, int start_ascii, int end_ascii) {
-    
-    int way;
-    way = get_way_caesar();
+string caesar_main(string content, int start_ascii, int end_ascii, int way) {
 
     int offset;
     offset = get_offset(way);
