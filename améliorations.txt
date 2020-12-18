@@ -3,3 +3,4 @@
     - qui dirait si tous les caractères du messages à chiffrer sont les bons en fonctions du chiffrement voulu et qui dit lesquels sont mauvais
     - (plus dur) qui remplacerait les caractères qui posent problemes par un caractere qui ne pose pas problemes automatiquement (é devient e, â devient a...)
 - ajouter un fichier config.txt pour parametrer le programme (debut et fin de ascii)
+- regrouper les fonctions pour le choix chiffrement/dechiffrement dans une meme fonction

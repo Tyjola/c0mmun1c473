@@ -28,7 +28,7 @@ int get_offset(int way) {
     }
     cin >> offset;
 
-    while(cin.fail()) {
+    while (cin.fail()) {
         cout << "The offset must be an integer : ";
         cin.clear();
         cin.ignore(256,'\n');
@@ -42,21 +42,21 @@ int get_offset(int way) {
 
 string caesar_encrypt(string content, int offset, int way) {   
 
-    int beggin_ascii = 33;
-    int end_ascii = 126;
+    int start_ascii = 33;
+    int end_ascii = 175;
 
     int char_val, new_char_val;
     string new_content, new_char;
     for (int i = 0; i < content.length(); i++) {
         char_val = int(content[i]);
         if (char_val != 32) {
-            new_char_val = char_val + (offset % (end_ascii - beggin_ascii));
+            new_char_val = char_val + (offset % (end_ascii - start_ascii));
             
             if (new_char_val > end_ascii) {
-                new_char_val = (new_char_val % end_ascii) + beggin_ascii;
+                new_char_val = (new_char_val % end_ascii) + start_ascii;
             }
-            if (new_char_val < beggin_ascii) {
-                new_char_val = end_ascii - (beggin_ascii - new_char_val);
+            if (new_char_val < start_ascii) {
+                new_char_val = end_ascii - (start_ascii - new_char_val);
             }
             new_char = char(new_char_val);
         }

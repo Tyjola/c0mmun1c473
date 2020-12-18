@@ -6,7 +6,7 @@
 using namespace std;
 
 
-int beggin_ascii = 33;
+int start_ascii = 33;
 int end_ascii = 126;
 
 
@@ -44,7 +44,7 @@ string affine_encrypt(string content, int a, int b) {
         char_val = int(content[i]);
 
         if (char_val != 32) {
-            new_char_val = (((a * (char_val - beggin_ascii)) + b ) % ((end_ascii - beggin_ascii) + 1)) + beggin_ascii;
+            new_char_val = (((a * (char_val - start_ascii)) + b ) % ((end_ascii - start_ascii) + 1)) + start_ascii;
             new_char = char(new_char_val);
         }
         else {
@@ -58,7 +58,7 @@ string affine_encrypt(string content, int a, int b) {
 
 string affine_decrypt(string content, int a, int b) {
 
-    int diff_ascii = (end_ascii - beggin_ascii) + 1;
+    int diff_ascii = (end_ascii - start_ascii) + 1;
 
     int a_inverse;
     int k;
@@ -74,7 +74,7 @@ string affine_decrypt(string content, int a, int b) {
     for (int i = 0; i < content.length(); i++) {
         char_val = int(content[i]);
         if(char_val != 32) {
-            new_content = new_content + char(((a_inverse * ((diff_ascii + char_val - beggin_ascii - b)) % diff_ascii)) + beggin_ascii);
+            new_content = new_content + char(((a_inverse * ((diff_ascii + char_val - start_ascii - b)) % diff_ascii)) + start_ascii);
         }
         else {
             new_content += " ";
