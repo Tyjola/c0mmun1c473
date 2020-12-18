@@ -1,5 +1,4 @@
 - intégrer une sécurité pour éviter de traiter des caractères qui ne sont pas dans la tables ascii :
     - qui dirait si tous les caractères du messages à chiffrer sont les bons en fonctions du chiffrement voulu et qui dit lesquels sont mauvais
     - (plus dur) qui remplacerait les caractères qui posent problemes par un caractere qui ne pose pas problemes automatiquement (é devient e, â devient a...)
-- regrouper les fonctions pour le choix chiffrement/dechiffrement dans une meme fonction
 - proposer d'entrer tous les caractères de l'alphabet désiré
