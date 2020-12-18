@@ -3,6 +3,6 @@
 
 #include <string>
 
-std::string vigenere_main(std::string content);
+std::string vigenere_main(std::string content, int start_ascii, int end_ascii);
 
 #endif

@@ -39,10 +39,7 @@ string get_key_vigenere(int way) {
 }
 
 
-string vigenere_encrypt(string content, int way, string key) {
-
-    int start_ascii = 33;
-    int end_ascii = 126;
+string vigenere_encrypt(string content, int way, string key, int start_ascii, int end_ascii) {
 
     int key_length = key.length();
     
@@ -73,7 +70,7 @@ string vigenere_encrypt(string content, int way, string key) {
 }
 
 
-string vigenere_main(string content) {
+string vigenere_main(string content, int start_ascii, int end_ascii) {
 
     int way;
     way = get_way_vigenere();
@@ -82,7 +79,7 @@ string vigenere_main(string content) {
     key = get_key_vigenere(way);
 
     string new_content;
-    new_content = vigenere_encrypt(content, way, key);
+    new_content = vigenere_encrypt(content, way, key, start_ascii, end_ascii);
 
     return new_content;
 }

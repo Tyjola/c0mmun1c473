@@ -10,14 +10,16 @@
 #include "streams.h"
 #include "introduction.h"
 #include "flags.h"
+#include "verification.h"
 
 using namespace std;
-
-//ceci est un test
 
 int main(int argc, char *argv[]) {   
 
     introduction();
+
+    int start_ascii, end_ascii;
+    tie(start_ascii, end_ascii) = ascii_range();
 
     if (argc == 1) {
         help_flag();
@@ -67,13 +69,13 @@ int main(int argc, char *argv[]) {
     
     string new_content;
     if (encryption_type == "caesar") {
-        new_content = caesar_main(content);
+        new_content = caesar_main(content, start_ascii, end_ascii);
     }
     else if (encryption_type == "vigenere") {
-        new_content = vigenere_main(content);
+        new_content = vigenere_main(content, start_ascii, end_ascii);
     }
     else if (encryption_type == "affine") {
-        new_content = affine_main(content);
+        new_content = affine_main(content, start_ascii, end_ascii);
     }
     else { 
         cout << "This type of encryption is not recognized : " << encryption_type << endl << endl;

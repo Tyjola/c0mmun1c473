@@ -40,10 +40,7 @@ int get_offset(int way) {
     }
 
 
-string caesar_encrypt(string content, int offset, int way) {   
-
-    int start_ascii = 33;
-    int end_ascii = 175;
+string caesar_encrypt(string content, int offset, int way, int start_ascii, int end_ascii) {   
 
     int char_val, new_char_val;
     string new_content, new_char;
@@ -72,7 +69,7 @@ string caesar_encrypt(string content, int offset, int way) {
 
 
 
-string caesar_main(string content) {
+string caesar_main(string content, int start_ascii, int end_ascii) {
     
     int way;
     way = get_way_caesar();
@@ -81,7 +78,7 @@ string caesar_main(string content) {
     offset = get_offset(way);
 
     string new_content;
-    new_content = caesar_encrypt(content, offset, way);
+    new_content = caesar_encrypt(content, offset, way, start_ascii, end_ascii);
 
     return new_content;
 }
