@@ -4,6 +4,7 @@
 #include <tuple>
 
 std::tuple<int, int> ascii_range();
+int check_content(std::string content);
 
 #endif
 

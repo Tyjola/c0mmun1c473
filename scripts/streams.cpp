@@ -30,7 +30,13 @@ string fopen(string filename) {
 
 int fcreate(string filename, string content) {
     ofstream stream_file("./"+filename);
-    stream_file << content << endl;
-    stream_file.close();
-    return 0;
+
+    if (stream_file) {
+        stream_file << content << endl;
+        stream_file.close();
+        return 1;
+    }
+    else {
+        return 0;
+    }
 }

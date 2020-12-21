@@ -16,8 +16,10 @@ using namespace std;
 
 int main(int argc, char *argv[]) {   
 
+    // Displays the introduction.
     introduction();
 
+    // Check for the arguments.
     if (argc == 1) {
         help_flag();
         return 0;
@@ -50,10 +52,12 @@ int main(int argc, char *argv[]) {
     if (new_filename == "") {
         new_filename = "encrypted_"+filename;
     }
+    // If the filename of the encryption's type is missing, the program ends.
     int check_flag_error = flags_errors(new_filename, encryption_type);
     if (check_flag_error == 0) {return 0;}
 
     
+    // Open the file to encrypt to get the content.
     string content;
     content = fopen(filename);
     if (content == "PB") { 
@@ -61,6 +65,15 @@ int main(int argc, char *argv[]) {
     }
 
 
+    // Check if the content contains characters of the extended ascii table.
+    int content_allowed;
+    content_allowed = check_content(content);
+    if (content_allowed == 0) {
+        return 0;
+    }
+
+
+    // Ask if the operation is an encryption or a decryption.
     string way_str;
     do {
         cout << "Please specify if it is an encryption (1) or a decryption (0) : ";
@@ -70,10 +83,12 @@ int main(int argc, char *argv[]) {
     int way = stoi(way_str);
 
 
+    // Change the alphabet if needed.
     int start_ascii, end_ascii;
     tie(start_ascii, end_ascii) = ascii_range();
 
 
+    // Select the right encryption's type.
     string new_content;
     if (encryption_type == "caesar") {
         new_content = caesar_main(content, start_ascii, end_ascii, way);
@@ -90,13 +105,26 @@ int main(int argc, char *argv[]) {
     }
 
 
-    fcreate(new_filename, new_content);
-    if (way == 1) {
-        cout << "The encryption has been performed correctly." << endl << endl;
+    // Check if the new file has been correctly created.
+    int success = fcreate(new_filename, new_content);
+
+    // Display whether the operation worked or not.
+    if (success = 1) {
+        if (way == 1) {
+            cout << "The encryption has been performed correctly." << endl << endl;
+        }
+        else {
+            cout << "The decryption has been performed correctly." << endl << endl;
+        }
     }
     else {
-        cout << "The decryption has been performed correctly." << endl << endl;
+        if (way == 1) {
+            cout << "The encryption did not go well." << endl << endl;
+        }
+        else {
+            cout << "The decryption did not go well." << endl << endl;
+        }
     }
-    return 1;
+    return success;
 }
 

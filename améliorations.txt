@@ -1,4 +1,4 @@
 - intégrer une sécurité pour éviter de traiter des caractères qui ne sont pas dans la tables ascii :
-    - qui dirait si tous les caractères du messages à chiffrer sont les bons en fonctions du chiffrement voulu et qui dit lesquels sont mauvais
+    - qui dit quel caractère est mauvais (idéalement en surligné)
     - (plus dur) qui remplacerait les caractères qui posent problemes par un caractere qui ne pose pas problemes automatiquement (é devient e, â devient a...)
 - proposer d'entrer tous les caractères de l'alphabet désiré
