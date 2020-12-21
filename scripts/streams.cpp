@@ -7,6 +7,7 @@
 using namespace std;
 
 
+// open the file to treat and catch the content.
 string fopen(string filename) {
     string content;
     ifstream stream_file("./"+filename);
@@ -28,6 +29,7 @@ string fopen(string filename) {
 }
 
 
+// Create the file containing the encrypted/decrypted content.
 int fcreate(string filename, string content) {
     ofstream stream_file("./"+filename);
 

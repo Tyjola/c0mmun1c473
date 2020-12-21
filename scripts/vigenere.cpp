@@ -5,6 +5,7 @@
 using namespace std;
 
 
+// Get the key for the encryption/decryption.
 string get_key_vigenere(int way) {
     string key;
     if (way == 1) {
@@ -26,6 +27,7 @@ string get_key_vigenere(int way) {
 }
 
 
+// Do the encryption and the decryption.
 string vigenere_encrypt(string content, int way, string key, int start_ascii, int end_ascii) {
 
     int key_length = key.length();
@@ -57,6 +59,7 @@ string vigenere_encrypt(string content, int way, string key, int start_ascii, in
 }
 
 
+// Vigenere main function.
 string vigenere_main(string content, int start_ascii, int end_ascii, int way) {
 
     string key;

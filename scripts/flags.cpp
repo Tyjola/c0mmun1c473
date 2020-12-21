@@ -4,6 +4,8 @@
 
 using namespace std;
 
+
+// Check whether all the needed arguments are caught or not.
 int flags_errors(string filename, string encryption_type) {
 
     if (filename == "") { 
@@ -19,6 +21,7 @@ int flags_errors(string filename, string encryption_type) {
     }
 }
 
+// Display the help flag.
 int help_flag() {
 
     cout << "Commun1c473 is a tool for encrypting and decrypting text contained in a file." << endl;

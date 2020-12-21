@@ -16,7 +16,7 @@ using namespace std;
 
 int main(int argc, char *argv[]) {   
 
-    // Displays the introduction.
+    // Display the introduction.
     introduction();
 
     // Check for the arguments.
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     string filename, new_filename, encryption_type;
     for (int i = 1; i < argc; i++) {  
         string arg = argv[i]; 
-        // Displays the help menu.
+        // Display the help menu.
         if (arg == "-h" || arg == "--help") {
             help_flag();
             return 0;

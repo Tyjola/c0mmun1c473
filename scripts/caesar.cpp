@@ -5,6 +5,7 @@
 using namespace std;
 
 
+// Get the offset for the encryption/decryption.
 int get_offset(int way) {
     
     int offset;
@@ -28,6 +29,7 @@ int get_offset(int way) {
     }
 
 
+// Do the encryption/decryption.
 string caesar_encrypt(string content, int offset, int way, int start_ascii, int end_ascii) {   
 
     int char_val, new_char_val;
@@ -56,7 +58,7 @@ string caesar_encrypt(string content, int offset, int way, int start_ascii, int 
 }
 
 
-
+// Caesar main function.
 string caesar_main(string content, int start_ascii, int end_ascii, int way) {
 
     int offset;

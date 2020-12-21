@@ -5,6 +5,8 @@
 
 using namespace std;
 
+
+// Ask for a new alphabet and get if if needed.
 tuple<int, int> ascii_range() {
 
     int start_ascii = -1;
@@ -48,6 +50,7 @@ tuple<int, int> ascii_range() {
 }
 
 
+// Check whether the content contains normal characters or not.
 int check_content(string content) {
     
     int counter = 0;

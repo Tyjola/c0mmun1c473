@@ -6,6 +6,7 @@
 using namespace std;
 
 
+// Get the coefficients.
 tuple<int, int> get_coefficients_affine() {
     int a,b;
     cout << "The encryption key must be of type (a,b) (a and b integers)." << endl;
@@ -20,6 +21,7 @@ tuple<int, int> get_coefficients_affine() {
 }
 
 
+// Do the encryption.
 string affine_encrypt(string content, int a, int b, int start_ascii, int end_ascii) {
 
     int char_val, new_char_val, offset;
@@ -40,6 +42,7 @@ string affine_encrypt(string content, int a, int b, int start_ascii, int end_asc
 }
 
 
+// Do the decryption.
 string affine_decrypt(string content, int a, int b, int start_ascii, int end_ascii) {
 
     int diff_ascii = (end_ascii - start_ascii) + 1;
@@ -67,7 +70,7 @@ string affine_decrypt(string content, int a, int b, int start_ascii, int end_asc
     return new_content;
 }
 
-
+// Main function for the affine encryption/decryption.
 string affine_main(string content, int start_ascii, int end_ascii, int way) {
 
     int a,b;

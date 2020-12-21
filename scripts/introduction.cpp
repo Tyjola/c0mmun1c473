@@ -4,6 +4,7 @@
 
 using namespace std;
 
+// Displays the introduction banner.
 void introduction() {
     cout << endl << "       ___                                 __      _  _ ______ ____  " << endl;
     cout << "      / _ \\                               /_ |    | || |____  |___ \\ " << endl;
