@@ -70,7 +70,7 @@ string affine_decrypt(string content, int a, int b, int start_ascii, int end_asc
     return new_content;
 }
 
-// Main function for the affine encryption/decryption.
+// Affine main function.
 string affine_main(string content, int start_ascii, int end_ascii, int way) {
 
     int a,b;
