@@ -6,6 +6,7 @@
 #include "caesar.h"
 #include "vigenere.h"
 #include "affine.h"
+#include "DES.h"
 
 #include "streams.h"
 #include "introduction.h"
@@ -60,7 +61,7 @@ int main(int argc, char *argv[]) {
     // Open the file to encrypt to get the content.
     string content;
     content = fopen(filename);
-    if (content == "PB") { 
+    if (content == "#####error#####") { 
         return 0;
     }
 
@@ -98,6 +99,9 @@ int main(int argc, char *argv[]) {
     }
     else if (encryption_type == "affine") {
         new_content = affine_main(content, start_ascii, end_ascii, way);
+    }
+    else if (encryption_type == "DES") {
+        new_content = DES_main(content, way);
     }
     else { 
         cout << "This type of encryption is not recognized : " << encryption_type << endl << endl;

@@ -67,6 +67,7 @@ int check_content(string content) {
         cout << "Do you want to continue the operation ? [Y/N] : ";
         cin >> choice;
         }
+        cout << endl; 
         if (choice == "N") {
             return 0;
         }

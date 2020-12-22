@@ -1,30 +1,9 @@
 #include <iostream>
 
 #include "vigenere.h"
+#include "key.h"
 
 using namespace std;
-
-
-// Get the key for the encryption/decryption.
-string get_key_vigenere(int way) {
-    string key;
-    if (way == 1) {
-        cout << "Please indicate the key for the Vigenere encryption : ";
-    }
-    else {
-        cout << "Please indicate the key for the Vigenere decryption : ";
-    }
-    cin.ignore();
-    getline(cin, key);
-    if (way == 1) {
-        cout << "Encryption of the file with the key : " << key << endl;
-    }
-    else {
-        cout << "Decryption of the file with the key : " << key << endl;
-    }
-    cout << endl;
-    return key;
-}
 
 
 // Do the encryption and the decryption.
@@ -63,7 +42,7 @@ string vigenere_encrypt(string content, int way, string key, int start_ascii, in
 string vigenere_main(string content, int start_ascii, int end_ascii, int way) {
 
     string key;
-    key = get_key_vigenere(way);
+    key = key_main(way, "text");
 
     string new_content;
     new_content = vigenere_encrypt(content, way, key, start_ascii, end_ascii);

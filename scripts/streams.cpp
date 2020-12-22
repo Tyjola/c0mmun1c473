@@ -22,7 +22,7 @@ string fopen(string filename) {
     else {
         cout << "There is a problem with the file opening." << endl;
         cout << "The file might be missing." << endl << endl;
-        return "PB";
+        return "#####error#####";
     }
 
     return content;

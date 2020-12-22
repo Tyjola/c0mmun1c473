@@ -1,4 +1,19 @@
 - intégrer une sécurité pour éviter de traiter des caractères qui ne sont pas dans la tables ascii :
     - qui dit quel caractère est mauvais (idéalement en surligné)
-    - (plus dur) qui remplacerait les caractères qui posent problemes par un caractere qui ne pose pas problemes automatiquement (é devient e, â devient a...)
-- proposer d'entrer tous les caractères de l'alphabet désiré
+    - (plus dur) qui remplacerait les caractères qui posent problemes par un caractère qui ne pose pas problemes automatiquement (é devient e, â devient a...)
+- proposer d'entrer tous les caractères de l'alphabet désiré (très chiant je pense)
+- ajouter une sécurité pour vigenere indiquant si la clé contient des caractères non compris dans la table ascii
+- ajouter une option pour vigenere permettant d'aller chercher la clé dans un fichier et d'enlever les espaces dans la clé si c"est une phrase
+- ajouter une option pour générer une clé pour les chiffrement.
+
+Listes des algos :
+- DES
+- AES
+- RSA
+- Blowfish
+- Serpent
+- Twofish
+
+Liens DES :
+- https://www.educative.io/edpresso/how-to-implement-the-des-algorithm-in-cpp (codes)
+- http://page.math.tu-berlin.de/~kant/teaching/hess/krypto-ws2006/des.htm (principe)
