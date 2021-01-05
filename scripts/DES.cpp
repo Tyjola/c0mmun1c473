@@ -83,3 +83,32 @@ string shiftLeft(int nbrShift, string keyPart) {
     }
     return resultKey
 };
+
+string encyrption_DES(string subKeys, string content) {
+    //On commence avec la permutation initiale de 64 bits
+    int const tailleIP(64);
+    int IP[tailleIP] = {
+    58,50,42,34,26,18,10,2,60,52,44,36,28,20,12,4,62,54,46,38,30,22,14,6,64,56,48,40,32,24,16,8,57,49,41,33,25,17,9,1,59,51,43,35,27,19,11,3,61,53,45,37,29,21,13,5,63,55,47,39,31,23,15,7
+    };
+    string keyTemp;
+    for (int k=0;k<tailleIP;k++) {
+        keyTemp.append(content[IP[k]-1]);
+    };
+    //On redivise ce résultat en deux moitiés de 32 bit
+    string leftTemp = keyTemp.substr(0,32);
+    string rightTemp = keyTemp.substr(32,32);
+
+}
+
+string calculXOR(string element1, string element2) {
+    string xorString;
+    int sizeString = element2.size();
+    for (int k=0;k<sizeString;k++) {
+        if (element1[i] != element2[i]) {
+            xorString.append("1");
+        }
+        else {
+            xorString.append("0");
+        }
+    }
+}
