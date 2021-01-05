@@ -97,6 +97,8 @@ string encyrption_DES(string subKeys, string content) {
     //On redivise ce résultat en deux moitiés de 32 bit
     string leftTemp = keyTemp.substr(0,32);
     string rightTemp = keyTemp.substr(32,32);
+    //On passe ensuite au cryptage à proprement parler
+    
 
 }
 
@@ -111,4 +113,5 @@ string calculXOR(string element1, string element2) {
             xorString.append("0");
         }
     }
+    return xorString;
 }
