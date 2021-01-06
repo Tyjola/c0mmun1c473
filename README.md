@@ -1,6 +1,6 @@
 # Commun1c473 is a tool for linux for encrypting and decrypting text contained in a file.
 
-## The supported encryption are :
+## The supported encryptions are :
 ###### - Caesar encryption
 ###### - Vigenère encryption
 ###### - Affine encryption
