@@ -8,7 +8,7 @@
 using namespace std;
 
 
-// Generate a radom key with a range of characters or an alphabet.
+// Generate a random key with a range of characters or an alphabet.
 string generate_key(int key_length, int char_key_start, int char_key_end, vector<string> char_key) {
 
     string key;
