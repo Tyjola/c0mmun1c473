@@ -5,6 +5,7 @@
 - ajouter une sécurité pour vigenere indiquant si la clé contient des caractères non compris dans la table ascii
 - ajouter une option pour vigenere permettant d'aller chercher la clé dans un fichier et d'enlever les espaces dans la clé si c"est une phrase
 - ajouter une option pour générer une clé pour les chiffrement.
+- ajouter une otion pour générer un décalage et une clé pour l'affine
 
 Listes des algos :
 - DES

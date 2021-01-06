@@ -4,6 +4,7 @@
 ###### - Caesar encryption
 ###### - Vigenère encryption
 ###### - Affine encryption
+###### - Vernam encryption
 ###### - DES encryption 
 
 ## Installation :

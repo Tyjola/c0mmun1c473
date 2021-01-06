@@ -37,6 +37,7 @@ int help_flag() {
     cout << "- Caesar encryption (caesar)" << endl;
     cout << "- Vigenère encryption (vigenere)" << endl;
     cout << "- Affine encryption (affine)" << endl;
+    cout << "- Vernam encryption (vernam)" << endl;
     cout << "- DES encryption (DES)" << endl;
     cout << endl;
     return 0;

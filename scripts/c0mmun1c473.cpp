@@ -6,7 +6,7 @@
 #include "caesar.h"
 #include "vigenere.h"
 #include "affine.h"
-#include "DES.h"
+#include "vernam.h"
 
 #include "streams.h"
 #include "introduction.h"
@@ -77,7 +77,7 @@ int main(int argc, char *argv[]) {
     // Ask if the operation is an encryption or a decryption.
     string way_str;
     do {
-        cout << "Please specify if it is an encryption (1) or a decryption (0) : ";
+        cout << "Please specify if it is decryption (0) or an encryption (1) : ";
         cin >> way_str;
         cout << endl;
     } while (way_str != "1" && way_str != "0");
@@ -100,9 +100,12 @@ int main(int argc, char *argv[]) {
     else if (encryption_type == "affine") {
         new_content = affine_main(content, start_ascii, end_ascii, way);
     }
-    else if (encryption_type == "DES") {
-        new_content = DES_main(content, way);
+    else if (encryption_type == "vernam") {
+        new_content = vernam_main(content, start_ascii, end_ascii, way);
     }
+    // else if (encryption_type == "DES") {
+    //     new_content = DES_main(content, way);
+    // }
     else { 
         cout << "This type of encryption is not recognized : " << encryption_type << endl << endl;
         return 0;

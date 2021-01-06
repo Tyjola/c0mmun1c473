@@ -1,14 +1,13 @@
 #include <iostream>
-#include <vector>
+#include <string>
 
-#include "vigenere.h"
+#include "vernam.h"
 #include "key.h"
 
 using namespace std;
 
 
-// Do the encryption and the decryption.
-string vigenere_encrypt(string content, int way, string key, int start_ascii, int end_ascii) {
+string vernam_encrypt(string content, int way, string key, int start_ascii, int end_ascii) {
 
     int key_length = key.length();
     
@@ -18,7 +17,7 @@ string vigenere_encrypt(string content, int way, string key, int start_ascii, in
         char_val = int(content[i]);
 
         if (char_val != 32) {
-            offset = int(key[i % key_length]) - start_ascii;
+            offset = int(key[i]) - start_ascii;
             if (way == 0) { offset = offset * -1; }
             new_char_val = char_val + offset;
 
@@ -39,16 +38,15 @@ string vigenere_encrypt(string content, int way, string key, int start_ascii, in
 }
 
 
-// Vigenere main function.
-string vigenere_main(string content, int start_ascii, int end_ascii, int way) {
-
+string vernam_main(string content, int start_ascii, int end_ascii, int way) {
+    
     string key;
-    int key_length = 0;
+    int key_length = content.length();
     vector<string> char_key = {};
     key = key_main(way, "text", key_length, start_ascii, end_ascii, char_key);
-
+    
     string new_content;
-    new_content = vigenere_encrypt(content, way, key, start_ascii, end_ascii);
+    new_content = vernam_encrypt(content, way, key, start_ascii, end_ascii);
 
     return new_content;
 }
