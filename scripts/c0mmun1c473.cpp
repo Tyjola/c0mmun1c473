@@ -129,6 +129,6 @@ int main(int argc, char *argv[]) {
             cout << "The decryption did not go well." << endl << endl;
         }
     }
-    return success;
+    return 1;
 }
 
