@@ -5,18 +5,17 @@
 
 using namespace std;
 
-
-
+string final_keys[16];
+string key;
+int nbrShift = 1;
 
 int DES_main(string content, int way) {
-    string subkeys[16];
-    string key = key_main(way, "text");
+    key = key_main(way, "text");
     cout << "The key is : " << key << endl << endl; 
     return 1;
 };
 
-string generate_subkeys(string key) {
-    string final_keys[16];
+void generate_subkeys(string key, string finalKeys) {
     //Il s'agit de la première table pour la permutation
     int const taillepc1(56);
     int pc1[taillepc1] = {
@@ -25,7 +24,7 @@ string generate_subkeys(string key) {
     //On effectue la première permutation de la clé de base à l'aide de PC1
     string temp_key1;
     for (int k=0;k<taillepc1;k++) {
-        temp_key1.append(key[pc1[k]-1]);
+        temp_key1+=key[pc1[k]-1];
         }
     //On sépare ensuite cette première clé en deux moitié de 28 éléments
     string temp_key21 = temp_key1.substr(0,28);
@@ -42,20 +41,20 @@ string generate_subkeys(string key) {
     for (int i=0;i<nombreCles;i++) {
         //Si égal à ces 4 nombres, on effectue un shift ciruclaire de seulement 1 vers la gauche
         if (i==0 || i==1 || i==8 || i==15) {
-            temp_key21 = shiftLeft(1,tempKey21);
-            temp_key22 = shiftLeft(1,tempKey22);
+            temp_key21 = shiftLeft(1,temp_key21);
+            temp_key22 = shiftLeft(1,temp_key22);
         }
         //sinon de 2 vers la gauche
         else {
-            temp_key21 = shiftLeft(2,tempKey21);
-            temp_key22 = shiftLeft(2,tempKey22);
+            temp_key21 = shiftLeft(2,temp_key21);
+            temp_key22 = shiftLeft(2,temp_key22);
         }
         //On redombine ensuite
         string temp_key2 = temp_key21 + temp_key22;
         string finalKeyPart;
         //Enfin, on repermute à l'aide la table PC2 plus courte
         for (int j = 0;j<taillepc2;j++) {
-            finalKeyPart.append(temp_key2[pc2[i]-1]);
+            finalKeyPart+=temp_key2[pc2[i]-1];
         }
         //Et on ajoute cette nouvelle sous-clé terminée à la série de clé finale
         final_keys[i]=finalKeyPart;
@@ -64,49 +63,51 @@ string generate_subkeys(string key) {
 
 //Le sous-programme pourr générer des déplacements ciruclaires vers la gauche, selon le nombre voulu
 string shiftLeft(int nbrShift, string keyPart) {
-    string resultKey;
+    std::string resultKey;
     int const tailleDemi(28);
     //On vérifie si on doit faire un shift de un ou de deux
     if (nbrShift==1) {
         for (int k=1;k<tailleDemi;k++) {
-            resultKey.append(keyPart[k]);
+            resultKey+=keyPart[k];
         }
-        resultKey.append(keyPart[0]);
+        resultKey+=keyPart[0];
         return resultKey;
     }
     else {
         for (int i=2;i<tailleDemi;i++) {
-            resultKey.append(keyPart[i]);
+            resultKey+=keyPart[i];
         }
-        resultKey.append(keyPart[0]);
-        resultKey.append(keyPart[1]);
+        resultKey+=keyPart[0];
+        resultKey+= keyPart[1];
     }
-    return resultKey
+    return resultKey;
 };
 
-string encyrption_DES(string subKeys, string content) {
+string encyrption_DES(string subkeys, string content) {
     //On commence avec la permutation initiale de 64 bits
     int const tailleIP(64);
     int IP[tailleIP] = {
     58,50,42,34,26,18,10,2,60,52,44,36,28,20,12,4,62,54,46,38,30,22,14,6,64,56,48,40,32,24,16,8,57,49,41,33,25,17,9,1,59,51,43,35,27,19,11,3,61,53,45,37,29,21,13,5,63,55,47,39,31,23,15,7
     };
-    string keyTemp;
+    std::string keyTemp;
     for (int k=0;k<tailleIP;k++) {
-        keyTemp.append(content[IP[k]-1]);
-    };
+        keyTemp+= content[IP[k]-1];
+    }
     //On redivise ce résultat en deux moitiés de 32 bit
     string leftTemp = keyTemp.substr(0,32);
     string rightTemp = keyTemp.substr(32,32);
-    //On passe ensuite au cryptage à proprement parler
-    
+    //On passe ensuite au cryptage à proprement parler, qui va s'effectuer 16 fois
+    for (int i = 0;i<16;i++) {
 
+    }
+    return "";
 }
 
 string calculXOR(string element1, string element2) {
     string xorString;
     int sizeString = element2.size();
     for (int k=0;k<sizeString;k++) {
-        if (element1[i] != element2[i]) {
+        if (element1[k] != element2[k]) {
             xorString.append("1");
         }
         else {
