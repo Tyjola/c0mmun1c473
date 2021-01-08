@@ -127,6 +127,8 @@ string convertisseurDecimalVersBinaire(int decimal) {
 }
 
 string encyrption_DES(string subkeys[16], string content) {
+    //On définit le resultat
+    string resultat;
     //On commence avec la permutation initiale de 64 bits
     int const tailleIP(64);
     int IP[tailleIP] = {
@@ -144,22 +146,8 @@ string encyrption_DES(string subkeys[16], string content) {
     int ET[tailleET] = { 
 	32,1,2,3,4,5,4,5,6,7,8,9,8,9,10,11, 12,13,12,13,14,15,16,17, 16,17,18,19,20,21,20,21, 22,23,24,25,24,25,26,27, 28,29,28,29,30,31,32,1 
 	};
-    //On passe ensuite au cryptage à proprement parler, qui va s'effectuer 16 fois
-    for (int i = 0;i<16;i++) {
-        //Pour chaque itération, on va d'abord chercher à calculer la fonction f avant d'effectuer le XOR
-        //Pour cela, on définit un élément droit étendu qui sera de 48 bit au lieu de 32
-        string rightTempExtended;
-        //Ici on va utiliser la table ET pour définir le j-ième de cette version étendue
-        for (int j = 0;j<tailleET;j++) {
-            rightTempExtended+= rightTemp[ET[i]-1];
-        }
-        //Maintenant que c'est fait, on va effectuer un XOR sur cette clé étendue avec la ième sous-clé créée avec le programme précédent
-        string tempXOR = calculXOR(subkeys[i],rightTempExtended);
-        //On va ensuite chercher à transformer les 48 bits à nouveau en 32
-        //On définit en premier lieu le string qui fera office de fonction f finale avant le deuxième XOR
-        string tempFunction;
-        //On définit ensuite la table SB qui classifie les différents Si allant de 1 à 8
-        int SB[8][4][16]= {
+    //On définit ensuite la table SB qui classifie les différents Si allant de 1 à 8
+    int SB[8][4][16]= {
         { 
         14,4,13,1,2,15,11,8,3,10,6,12,5,9,0,7, 0,15,7,4,14,2,13,1,10,6,12,11,9,5,3,8, 4,1,14,8,13,6,2,11,15,12,9,7,3,10,5,0, 15,12,8,2,4,9,1,7,5,11,3,14,10,0,6,13 
         }, 
@@ -185,6 +173,28 @@ string encyrption_DES(string subkeys[16], string content) {
         13,2,8,4,6,15,11,1,10,9,3,14,5,0,12,7, 1,15,13,8,10,3,7,4,12,5,6,11,0,14,9,2, 7,11,4,1,9,12,14,2,0,6,10,13,15,3,5,8, 2,1,14,7,4,10,8,13,15,12,9,0,3,5,6,11 
         }
     };
+    //On définit ensuite une table de permutation pour le  côté droit transformé de 32bit (voir plus-bas)
+    int P[32] = { 
+        16,7,20,21,29,12,28,17, 1,15,23,26,5,18,31,10, 2,8,24,14,32,27,3,9,19,13,30,6,22,11,4,25 
+	    };
+    //On définit enfin une table IP2 pour effectuer la permutation sur le nouvel élément de 64 bit
+    int IP2[64]= { 
+        40,8,48,16,56,24,64,32, 39,7,47,15,55,23,63,31, 38,6,46,14,54,22,62,30, 37,5,45,13,53,21,61,29, 36,4,44,12,52,20,60,28, 35,3,43,11,51,19,59,27, 34,2,42,10,50,18,58,26, 33,1,41,9,49,17,57,25 
+	    };
+    //On passe ensuite au cryptage à proprement parler, qui va s'effectuer 16 fois
+    for (int i = 0;i<16;i++) {
+        //Pour chaque itération, on va d'abord chercher à calculer la fonction f avant d'effectuer le XOR
+        //Pour cela, on définit un élément droit étendu qui sera de 48 bit au lieu de 32
+        string rightTempExtended;
+        //Ici on va utiliser la table ET pour définir le j-ième de cette version étendue
+        for (int j = 0;j<tailleET;j++) {
+            rightTempExtended+= rightTemp[ET[i]-1];
+        }
+        //Maintenant que c'est fait, on va effectuer un XOR sur cette clé étendue avec la ième sous-clé créée avec le programme précédent
+        string tempXOR = calculXOR(subkeys[i],rightTempExtended);
+        //On va ensuite chercher à transformer les 48 bits à nouveau en 32
+        //On définit en premier lieu le string qui fera office de fonction f finale avant le deuxième XOR
+        string tempFunction;
         //Ensuite, on va séparer le XOR de 48 bits en 6 string de 8 bits
         for (int l = 0;l>8;l++) {
             //Ceux ci-fonctionnent de la manière suivante: le premier et dernier bit de chaque morceau servent à définir un nombre binaire de 2 bits transformer en entier de 0 à 3,
@@ -200,6 +210,24 @@ string encyrption_DES(string subkeys[16], string content) {
             //On rajoute ensuite le nouvel élément binaire de 4 bits dans la future fonction f de 32 bits
             tempFunction += substBinaire;
         }
+        //On effectue ensuite une nouvelle permutation à l'aide de la table P
+        string keyTemp2;
+        for (int m=0;m<(tailleIP/2);m++) {
+            keyTemp2 += tempFunction[P[m]-1];
+        }
+        //On effectue ensuite le XOR avec le côté gauche pour obtenir le futur "nouveau" côté droit
+        tempXOR =  calculXOR(leftTemp,keyTemp2);
+        //enfin, si on en est pas à l'itération finale, on met en place le i+1ème côté gauche et droit pour pouvoir réitérer
+        string temp = rightTemp;
+        leftTemp = temp;            //On a bien L(i+1)=R(i)
+        rightTemp = tempXOR;        //On a bien R(i+1)= XOR(L(i),f(...))
     }
-    return "";  //Ne pas oublier de le changer
-}
+    //Une fois à la dernière étape, on fusionne les deux string en commencant par le côté droit
+    string tempFinal = rightTemp+leftTemp;
+    //On effectue ensuite la permutation finale avec la table IP2
+    for (int n=0;n<tailleIP;n++) {
+        resultat += tempFinal[IP2[n]-1];
+    }
+    //On retourne le string crypté
+    return resultat;
+};
