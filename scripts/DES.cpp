@@ -241,6 +241,7 @@ string decryption_DES(string subkeys[16], string crypted_content) {
         newSubKeys[k]=subkeys[tailleCle-k];
         newSubKeys[tailleCle-k]=subkeys[k];
     }
+    newSubKeys[8]=subkeys[8];
     resultat = encyrption_DES(newSubKeys, crypted_content);
     return resultat;
 };
