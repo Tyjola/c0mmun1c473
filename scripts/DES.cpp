@@ -10,8 +10,8 @@ string key;
 int nbrShift = 1;
 
 int DES_main(string content, int way) {
-    //key = key_main(way, "text");
-    //cout << "The key is : " << key << endl << endl; 
+    //key = key_main(way, "binary",64,0,127,);
+    cout << "The key is : " << key << endl << endl; 
     return 1;
 };
 
@@ -229,5 +229,18 @@ string encyrption_DES(string subkeys[16], string content) {
         resultat += tempFinal[IP2[n]-1];
     }
     //On retourne le string crypté
+    return resultat;
+};
+
+//Le décryptage fonctionne come le cryptage mais en inversant l'ordre des sous-clés
+string decryption_DES(string subkeys[16], string crypted_content) {
+    int const tailleCle(16);
+    string newSubKeys[tailleCle];
+    string resultat;
+    for (int k=0;k<tailleCle/2;k++) {
+        newSubKeys[k]=subkeys[tailleCle-k];
+        newSubKeys[tailleCle-k]=subkeys[k];
+    }
+    resultat = encyrption_DES(newSubKeys, crypted_content);
     return resultat;
 };
