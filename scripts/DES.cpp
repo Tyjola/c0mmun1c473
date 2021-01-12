@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <bitset>
+#include <vector>
 
 #include "key.h"
 
@@ -8,12 +10,6 @@ using namespace std;
 string final_keys[16];
 string key;
 int nbrShift = 1;
-
-int DES_main(string content, int way) {
-    //key = key_main(way, "binary",64,0,127,);
-    cout << "The key is : " << key << endl << endl; 
-    return 1;
-};
 
 //Le sous-programme pourr générer des déplacements ciruclaires vers la gauche, selon le nombre voulu
 string shiftLeft(int nbrShift, string keyPart) {
@@ -37,7 +33,7 @@ string shiftLeft(int nbrShift, string keyPart) {
     return resultKey;
 };
 
-void generate_subkeys(string key, string finalKeys) {
+void generate_subkeys(string key) {
     //Il s'agit de la première table pour la permutation
     int const taillepc1(56);
     int pc1[taillepc1] = {
@@ -244,4 +240,45 @@ string decryption_DES(string subkeys[16], string crypted_content) {
     newSubKeys[8]=subkeys[8];
     resultat = encyrption_DES(newSubKeys, crypted_content);
     return resultat;
+};
+
+//Pour convertir le texte en binaire 
+string convert_text_binary(string text_key) {
+
+    string binary_text, binary;
+    for (int i = 0; i < text_key.length(); i++) {
+        binary = bitset<8>(int(text_key[i])).to_string();
+        binary_text += binary;
+    }
+    return binary_text;
+}
+
+int DES_main(string content, int way) {
+    vector<string> char_key{ "0", "1" };
+    key = key_main(way, "binary",64,33,126,char_key);
+    cout << "The key is : " << key << endl << endl; 
+    //On convertit le texte au format binaire
+    string content_binary = convert_text_binary(content);
+    //On récupère le mutliple de 64 nécéssaire pour créer les blocs
+    int const debutZeros(content_binary.size()%64);
+    int blocs = content_binary.size()/64;
+    string sous_blocs[blocs+1];
+    for (int k=0;k<blocs;k++) {
+        sous_blocs[k]=content_binary.substr(64*k,64);
+    }
+    string tempBlocFinal=content_binary.substr(64*blocs,debutZeros-1);
+    for (int i = debutZeros;i<64;i++) {
+        tempBlocFinal += "0";
+    }
+    sous_blocs[blocs]=tempBlocFinal;
+    if (tempBlocFinal.size() != 64) {
+         cout << "Problème de blocs dans le texte" << endl
+         return 0;
+    }
+    int const nombreBlocs(blocs+1);
+    final_keys = generate_subkeys(key);
+    for (int j=0;j<nombreBlocs;j++) {
+        
+    }
+    return 1;
 };
