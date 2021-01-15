@@ -292,5 +292,7 @@ int DES_main(string content, int way) {
         texteRestitue += tempPart;
     }
     cout << "Texte Restitué:" << texteRestitue << endl << endl;
+    string texteRetourFinal = texteRestitue.substr(0,64*blocs+debutZeros-1);
+    //Il reste à re-traduire le binaire en texte
     return 1;
 };
