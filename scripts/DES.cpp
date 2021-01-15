@@ -272,13 +272,25 @@ int DES_main(string content, int way) {
     }
     sous_blocs[blocs]=tempBlocFinal;
     if (tempBlocFinal.size() != 64) {
-         cout << "Problème de blocs dans le texte" << endl
+         cout << "Problème de blocs dans le texte" << endl;
          return 0;
     }
     int const nombreBlocs(blocs+1);
-    final_keys = generate_subkeys(key);
+    string listeCryptage[nombreBlocs];
+    string texteCrypte;
+    generate_subkeys(key);
     for (int j=0;j<nombreBlocs;j++) {
-        
+        string tempPart = encyrption_DES(final_keys,content);
+        listeCryptage[j] = tempPart;
+        texteCrypte += tempPart;
     }
+    cout << texteCrypte << endl << endl;
+    string texteRestitue;
+    for (int l=0;l<nombreBlocs;l++) {
+        string tempPart = decryption_DES(final_keys,listeCryptage[l]);
+        listeCryptage[l] = tempPart;
+        texteRestitue += tempPart;
+    }
+    cout << "Texte Restitué:" << texteRestitue << endl << endl;
     return 1;
 };
