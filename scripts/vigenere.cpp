@@ -17,7 +17,8 @@ string vigenere_encrypt(string content, int way, string key, int start_ascii, in
     for (int i = 0; i < content.length(); i++) {
         char_val = int(content[i]);
 
-        if (char_val != 32) {
+        //On effectue ici un calcul qui revient à crypté[i]=(char[i]+offset[i])%26
+                if (char_val != 32) {
             offset = int(key[i % key_length]) - start_ascii;
             if (way == 0) { offset = offset * -1; }
             new_char_val = char_val + offset;

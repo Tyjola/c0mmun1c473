@@ -14,13 +14,16 @@ string vernam_encrypt(string content, int way, string key, int start_ascii, int 
     int char_val, new_char_val, offset;
     string new_content, new_char;
     for (int i = 0; i < content.length(); i++) {
+        //On récupère la valeur du charactère
         char_val = int(content[i]);
 
         if (char_val != 32) {
             offset = int(key[i]) - start_ascii;
             if (way == 0) { offset = offset * -1; }
+            //On fait la somme entre la valeur [i] de la clé/du masque et du texte à coder
             new_char_val = char_val + offset;
 
+            //Ces deux lignes ervent d'équivalent du modulo 26 : si on sort des limites de l'ascii on retourne dedans 
             if (new_char_val > end_ascii) {
                 new_char_val = (new_char_val % end_ascii) + start_ascii;
             }
@@ -36,7 +39,6 @@ string vernam_encrypt(string content, int way, string key, int start_ascii, int 
     }
     return new_content;
 }
-
 
 string vernam_main(string content, int start_ascii, int end_ascii, int way) {
     

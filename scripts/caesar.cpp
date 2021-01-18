@@ -37,6 +37,7 @@ string caesar_encrypt(string content, int offset, int way, int start_ascii, int 
     for (int i = 0; i < content.length(); i++) {
         char_val = int(content[i]);
         if (char_val != 32) {
+            //Iici, on utilise tout simplement le int de décalage pour décalert tout les caractères
             new_char_val = char_val + (offset % (end_ascii - start_ascii));
             
             if (new_char_val > end_ascii) {
