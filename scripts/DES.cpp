@@ -10,7 +10,6 @@ using namespace std;
 
 string final_keys[16];
 string key;
-int nbrShift = 1;
 
 //Le sous-programme pourr générer des déplacements ciruclaires vers la gauche, selon le nombre voulu
 string shiftLeft(int nbrShift, string keyPart) {
