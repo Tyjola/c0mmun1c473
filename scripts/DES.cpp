@@ -2,6 +2,7 @@
 #include <string>
 #include <bitset>
 #include <vector>
+#include <sstream>
 
 #include "key.h"
 
@@ -253,6 +254,21 @@ string convert_text_binary(string text_key) {
     return binary_text;
 }
 
+string convert_binary_text(string binary_key) {
+    string data = binary_key;
+    stringstream sstream(data);
+    string text_output;
+    while(sstream.good())
+    {
+        bitset<8> bits;
+        sstream >> bits;
+        char c = char(bits.to_ulong());
+        text_output += c;
+    }
+
+    return text_output;
+}
+
 int DES_main(string content, int way) {
     vector<string> char_key{ "0", "1" };
     key = key_main(way, "binary",64,33,126,char_key);
@@ -297,9 +313,11 @@ int DES_main(string content, int way) {
         listeCryptage[l] = tempPart;
         texteRestitue += tempPart;
     }
-    cout << "Texte Restitué:" << texteRestitue << endl << endl;
+    cout << "Texte Restitué en binaire :" << texteRestitue << endl << endl;
     //On enlève ensuite les 0 inutiles à la fin du dernier bloc en utilisant le nombre "debutZeros" défini au début
     string texteRetourFinal = texteRestitue.substr(0,64*blocs+debutZeros-1);
     //Il reste à re-traduire le binaire en texte
+    string vraiTexte = convert_binary_text(texteRetourFinal);
+    cout << "Le texte d'origine est : " << vraiTexte << endl;
     return 1;
 };
