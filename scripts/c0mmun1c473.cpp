@@ -7,6 +7,7 @@
 #include "vigenere.h"
 #include "affine.h"
 #include "vernam.h"
+#include "DES.h"
 
 #include "streams.h"
 #include "introduction.h"
@@ -103,9 +104,9 @@ int main(int argc, char *argv[]) {
     else if (encryption_type == "vernam") {
         new_content = vernam_main(content, start_ascii, end_ascii, way);
     }
-    // else if (encryption_type == "DES") {
-    //     new_content = DES_main(content, way);
-    // }
+    else if (encryption_type == "DES") {
+        new_content = DES_main(content, start_ascii, end_ascii, way);
+    }
     else { 
         cout << "This type of encryption is not recognized : " << encryption_type << endl << endl;
         return 0;

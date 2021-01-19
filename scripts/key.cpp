@@ -85,7 +85,6 @@ string select_key(int way, int key_length, int start_ascii, int end_ascii, vecto
                 cin >> key_length;
             }
         }
-        cout << "Generating the key..." << endl;
         content_key = generate_key(key_length, start_ascii, end_ascii, char_key);
         cout << "The key is : " << content_key << endl;
     }
