@@ -77,6 +77,8 @@ void generate_subkeys(string key) {
         }
         //Et on ajoute cette nouvelle sous-clé terminée à la série de clé finale
         final_keys[i]=finalKeyPart;
+        cout << "final_key: " << finalKeyPart<< endl;
+
     }
 };
 
@@ -219,12 +221,15 @@ string encyrption_DES(string subkeys[16], string content) {
         //On effectue ensuite le XOR avec le côté gauche pour obtenir le futur "nouveau" côté droit
         tempXOR =  calculXOR(leftTemp,keyTemp2);
         //enfin, si on en est pas à l'itération finale, on met en place le i+1ème côté gauche et droit pour pouvoir réitérer
+        leftTemp = tempXOR;
+        if (i<15) {
         string temp = rightTemp;
         leftTemp = temp;            //On a bien L(i+1)=R(i)
         rightTemp = tempXOR;        //On a bien R(i+1)= XOR(L(i),f(...))
+        }
     }
     //Une fois à la dernière étape, on fusionne les deux string en commencant par le côté droit
-    string tempFinal = rightTemp+leftTemp;
+    string tempFinal = leftTemp+rightTemp;
     //On effectue ensuite la permutation finale avec la table IP2
     for (int n=0;n<tailleIP;n++) {
         resultat += tempFinal[IP2[n]-1];
@@ -282,6 +287,7 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
     // On convertit le texte au format binaire si on est dans la phase de cryptage
     content_binary = convert_text_binary(content);
     cout << "Le texte d'origine, v. binaire: " << content_binary << endl;
+    cout << "taille divise par 64: " << (content_binary.size()/64) << endl;
     }
     else {
         //Sinon on récupère juste le texte déjà au format binaire
@@ -297,12 +303,12 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
     }
     //Pour le dernier blocs, on récupère ce qu'il reste et on rajoute des 0 pour compléter
     string tempBlocFinal=content_binary.substr(64*blocs,debutZeros);
+    cout << "taille Actuelle: " << tempBlocFinal.size() << endl;
     for (int i = debutZeros;i<64;i++) {
         tempBlocFinal += "0";
     }
     //On vérifie si il y a un problème
     sous_blocs[blocs]=tempBlocFinal;
-    cout << "taille Actuelle: " << tempBlocFinal.size() << endl;
     if (tempBlocFinal.size() != 64) {
         cout << "taille bloc final :" << tempBlocFinal.size() << endl;
         cout << "Problème de blocs dans le texte" << endl;
@@ -312,24 +318,25 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
     //On génère les sous-clés dans final_keys
     generate_subkeys(key);
     if(way == 1) {
-        string listeCryptage[nombreBlocs];
         string texteCrypte;
         //Pour chaque bloc, on utilise les sous-clés pour le cryptage et on récupère un texte crypté
         for (int j=0;j<nombreBlocs;j++) {
             string tempPart = encyrption_DES(final_keys,sous_blocs[j]);
-            listeCryptage[j] = tempPart;
             texteCrypte += tempPart;
         }
         cout << "Ceci est le texte crypte: " << texteCrypte << endl << endl;
         return texteCrypte;
     }
     else {
+        //Si décyptage
         string texteRestitue;
         int const tailleCle(16);
         string newSubKeys[tailleCle];
+        //On inverse les sous-clés
         for (int k=0;k<(tailleCle/2);k++) {
             newSubKeys[k]=final_keys[tailleCle-k-1];
             newSubKeys[tailleCle-k-1]=final_keys[k];
+            cout << "final_key modifiée: " << newSubKeys[k] << endl;
         }
         //On décrypte ensuite chaque bloc
         for (int l=0;l<nombreBlocs;l++) {
@@ -342,6 +349,7 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
         cout << "Modulo 64: " << (texteRestitue.size()%64) << endl;
         //Il reste à re-traduire le binaire en texte
         cout << "Texte Restitué :" << texteRetourFinal << endl;
+        cout << "taille divise par 64: " << (texteRetourFinal.size()/64) << endl;
         return texteRetourFinal;
     }
 };
