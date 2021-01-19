@@ -137,4 +137,4 @@ string key_main(int way, string output_type, int key_length, int start_ascii, in
             return text_key;
         }
     }
-}
+};
