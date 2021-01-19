@@ -25,11 +25,16 @@ string shiftLeft(int nbrShift, string keyPart) {
         return resultKey;
     }
     else {
-        for (int i=2;i<tailleDemi;i++) {
-            resultKey+=keyPart[i];
+        string tempShift;
+        for(int i = 0; i < 2; i++){ 
+            for(int j = 1; j < tailleDemi; j++){ 
+                shifted += key_chunk[j]; 
+            } 
+            resultKey += key_chunk[0]; 
+            tempShift = resultKey; 
+            resultKey = ""; 
         }
-        resultKey+=keyPart[0];
-        resultKey+= keyPart[1];
+        resultKey = tempShift; 
     }
     return resultKey;
 };
