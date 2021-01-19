@@ -3,6 +3,7 @@
 #include <bitset>
 #include <vector>
 #include <sstream>
+#include <cmath>
 
 #include "key.h"
 #include "DES.h"
@@ -25,12 +26,12 @@ string shiftLeft(int nbrShift, string keyPart) {
         return resultKey;
     }
     else {
-        string tempShift;
+        string tempShift = keyPart;
         for(int i = 0; i < 2; i++){ 
             for(int j = 1; j < tailleDemi; j++){ 
-                shifted += key_chunk[j]; 
+                resultKey += tempShift[j]; 
             } 
-            resultKey += key_chunk[0]; 
+            resultKey += tempShift[0]; 
             tempShift = resultKey; 
             resultKey = ""; 
         }
@@ -105,12 +106,13 @@ string calculXOR(string element1, string element2) {
 int convertisseurBinaireVersDecimal(string binaire) {
     int resultat;
     int const taille = binaire.size();
-    for (int k=taille-1;k>=0;k--) {
+    for (int k=0;k<taille;k++) {
         if (binaire[k]=='1') {
-            resultat = 2*resultat + 1;
+            //resultat = 2*resultat + 1;
+            resultat += pow(2,taille-k-1);
         }
         else {
-            resultat = 2*resultat;
+            //resultat = 2*resultat;
         }
     }
     return resultat;
