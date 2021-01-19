@@ -273,9 +273,15 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
 
     vector<string> char_key{ "0", "1" };
     key = key_main(way, "text", 64, start_ascii, end_ascii, char_key);
-
-    // On convertit le texte au format binaire
-    string content_binary = convert_text_binary(content);
+    string content_binary;
+    if(way == 1) {
+    // On convertit le texte au format binaire si on est dans la phase de cryptage
+    content_binary = convert_text_binary(content);
+    }
+    else {
+        //Sinon on récupère juste le texte déjà au format binaire
+        content_binary = content;
+    }
     // On récupère le multiple de 64 nécessaire pour créer les blocs
     int const debutZeros(content_binary.size()%64);
     int blocs = content_binary.size()/64;
@@ -299,26 +305,32 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
     }
     int const nombreBlocs(blocs+1);
     string listeCryptage[nombreBlocs];
-    string texteCrypte;
     //On génère les sous-clés dans final_keys
     generate_subkeys(key);
-    //Pour chaque bloc, on utilise les sous-clés pour le cryptage et on récupère un texte crypté
-    for (int j=0;j<nombreBlocs;j++) {
-        string tempPart = encyrption_DES(final_keys,content);
-        listeCryptage[j] = tempPart;
-        texteCrypte += tempPart;
+    if(way == 1) {
+        string texteCrypte;
+        //Pour chaque bloc, on utilise les sous-clés pour le cryptage et on récupère un texte crypté
+        for (int j=0;j<nombreBlocs;j++) {
+            string tempPart = encyrption_DES(final_keys,content);
+            listeCryptage[j] = tempPart;
+            texteCrypte += tempPart;
+        }
+        cout << texteCrypte << endl << endl;
+        return texteCrypte;
     }
-    cout << texteCrypte << endl << endl;
-    string texteRestitue;
-    //On décrypte ensuite chaque bloc
-    for (int l=0;l<nombreBlocs;l++) {
-        string tempPart = decryption_DES(final_keys,listeCryptage[l]);
-        listeCryptage[l] = tempPart;
-        texteRestitue += tempPart;
+    else {
+        string texteRestitue;
+        //On décrypte ensuite chaque bloc
+        for (int l=0;l<nombreBlocs;l++) {
+            string tempPart = decryption_DES(final_keys,listeCryptage[l]);
+            listeCryptage[l] = tempPart;
+            texteRestitue += tempPart;
+        }
+        cout << "Texte Restitué en binaire :" << texteRestitue << endl << endl;
+        //On enlève ensuite les 0 inutiles à la fin du dernier bloc en utilisant le nombre "debutZeros" défini au début
+        string texteRetourFinal = texteRestitue.substr(0,64*blocs+debutZeros);
+        //Il reste à re-traduire le binaire en texte
+        cout << "Texte Restitué :" << texteRetourFinal << endl;
+        return texteRetourFinal;
     }
-    cout << "Texte Restitué en binaire :" << texteRestitue << endl << endl;
-    //On enlève ensuite les 0 inutiles à la fin du dernier bloc en utilisant le nombre "debutZeros" défini au début
-    string texteRetourFinal = texteRestitue.substr(0,64*blocs+debutZeros);
-    //Il reste à re-traduire le binaire en texte
-    return texteRetourFinal;
 };
