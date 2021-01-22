@@ -3,6 +3,7 @@
 #include <bitset>
 #include <vector>
 #include <sstream>
+#include <cmath>
 
 #include "key.h"
 #include "DES.h"
@@ -25,11 +26,16 @@ string shiftLeft(int nbrShift, string keyPart) {
         return resultKey;
     }
     else {
-        for (int i=2;i<tailleDemi;i++) {
-            resultKey+=keyPart[i];
+        string tempShift = keyPart;
+        for(int i = 0; i < 2; i++){ 
+            for(int j = 1; j < tailleDemi; j++){ 
+                resultKey += tempShift[j]; 
+            } 
+            resultKey += tempShift[0]; 
+            tempShift = resultKey; 
+            resultKey = ""; 
         }
-        resultKey+=keyPart[0];
-        resultKey+= keyPart[1];
+        resultKey = tempShift; 
     }
     return resultKey;
 };
@@ -73,10 +79,12 @@ void generate_subkeys(string key) {
         string finalKeyPart;
         //Enfin, on repermute à l'aide la table PC2 plus courte
         for (int j = 0;j<taillepc2;j++) {
-            finalKeyPart+=temp_key2[pc2[i]-1];
+            finalKeyPart+=temp_key2[pc2[j]-1];
         }
         //Et on ajoute cette nouvelle sous-clé terminée à la série de clé finale
         final_keys[i]=finalKeyPart;
+        cout << "final_key: " << finalKeyPart<< endl;
+
     }
 };
 
@@ -98,12 +106,13 @@ string calculXOR(string element1, string element2) {
 int convertisseurBinaireVersDecimal(string binaire) {
     int resultat;
     int const taille = binaire.size();
-    for (int k=taille-1;k>=0;k--) {
+    for (int k=0;k<taille;k++) {
         if (binaire[k]=='1') {
-            resultat = 2*resultat + 1;
+            //resultat = 2*resultat + 1;
+            resultat += pow(2,taille-k-1);
         }
         else {
-            resultat = 2*resultat;
+            //resultat = 2*resultat;
         }
     }
     return resultat;
@@ -113,12 +122,16 @@ string convertisseurDecimalVersBinaire(int decimal) {
     string resultat;
     int temp = decimal;
     while (temp !=0) {
-        if ((decimal %2 ) == 0) {
+        if (temp %2 == 0) {
             resultat = "0" + resultat;
         }
         else {
             resultat = "1" +  resultat;
         }
+        temp=temp/2;
+    }
+    while (resultat.size()<4) {
+        resultat = "0" + resultat;
     }
     return resultat;
 }
@@ -141,7 +154,7 @@ string encyrption_DES(string subkeys[16], string content) {
     //On définit ensuite la table d'expansion qui va permettre d'effectuer le cryptage
     int const tailleET(48);
     int ET[tailleET] = { 
-	32,1,2,3,4,5,4,5,6,7,8,9,8,9,10,11, 12,13,12,13,14,15,16,17, 16,17,18,19,20,21,20,21, 22,23,24,25,24,25,26,27, 28,29,28,29,30,31,32,1 
+	32,1,2,3,4,5,4,5,6,7,8,9,8,9,10,11,12,13,12,13,14,15,16,17, 16,17,18,19,20,21,20,21, 22,23,24,25,24,25,26,27,28,29,28,29,30,31,32,1 
 	};
     //On définit ensuite la table SB qui classifie les différents Si allant de 1 à 8
     int SB[8][4][16]= {
@@ -185,24 +198,24 @@ string encyrption_DES(string subkeys[16], string content) {
         string rightTempExtended;
         //Ici on va utiliser la table ET pour définir le j-ième de cette version étendue
         for (int j = 0;j<tailleET;j++) {
-            rightTempExtended+= rightTemp[ET[i]-1];
-        }
+            rightTempExtended+= rightTemp[ET[j]-1];
+            }
         //Maintenant que c'est fait, on va effectuer un XOR sur cette clé étendue avec la ième sous-clé créée avec le programme précédent
         string tempXOR = calculXOR(subkeys[i],rightTempExtended);
         //On va ensuite chercher à transformer les 48 bits à nouveau en 32
         //On définit en premier lieu le string qui fera office de fonction f finale avant le deuxième XOR
         string tempFunction;
         //Ensuite, on va séparer le XOR de 48 bits en 6 string de 8 bits
-        for (int l = 0;l>8;l++) {
+        for (int l = 0;l<8;l++) {
             //Ceux ci-fonctionnent de la manière suivante: le premier et dernier bit de chaque morceau servent à définir un nombre binaire de 2 bits transformer en entier de 0 à 3,
             //qui donne la ligne de l'élément de substitution
-            string cleLigne = tempXOR.substr(6*i,1)+tempXOR.substr(6*i+5,1);
+            string cleLigne = tempXOR.substr(6*l,1)+tempXOR.substr(6*l+5,1);
             int cleLigneDecimal = convertisseurBinaireVersDecimal(cleLigne);
             //Quand aux 4 autres, il serviront de nombre binaire de 4 bits à transformer en décimal de 1 à 15, qui donneront sur quelle colonne prendre l'élément de substitution
-            string cleColonne = tempXOR.substr(6*i+1,4);
+            string cleColonne = tempXOR.substr(6*l+1,4);
             int cleColonneDecimal = convertisseurBinaireVersDecimal(cleColonne);
             //On récupère l'élement en question sous forme décimale et on le repasse en binaire
-            int substDecimal = SB[i][cleLigneDecimal][cleColonneDecimal];
+            int substDecimal = SB[l][cleLigneDecimal][cleColonneDecimal];
             string substBinaire = convertisseurDecimalVersBinaire(substDecimal);
             //On rajoute ensuite le nouvel élément binaire de 4 bits dans la future fonction f de 32 bits
             tempFunction += substBinaire;
@@ -215,12 +228,15 @@ string encyrption_DES(string subkeys[16], string content) {
         //On effectue ensuite le XOR avec le côté gauche pour obtenir le futur "nouveau" côté droit
         tempXOR =  calculXOR(leftTemp,keyTemp2);
         //enfin, si on en est pas à l'itération finale, on met en place le i+1ème côté gauche et droit pour pouvoir réitérer
+        leftTemp = tempXOR;
+        if (i<15) {
         string temp = rightTemp;
         leftTemp = temp;            //On a bien L(i+1)=R(i)
         rightTemp = tempXOR;        //On a bien R(i+1)= XOR(L(i),f(...))
+        }
     }
     //Une fois à la dernière étape, on fusionne les deux string en commencant par le côté droit
-    string tempFinal = rightTemp+leftTemp;
+    string tempFinal = leftTemp+rightTemp;
     //On effectue ensuite la permutation finale avec la table IP2
     for (int n=0;n<tailleIP;n++) {
         resultat += tempFinal[IP2[n]-1];
@@ -234,11 +250,10 @@ string decryption_DES(string subkeys[16], string crypted_content) {
     int const tailleCle(16);
     string newSubKeys[tailleCle];
     string resultat;
-    for (int k=0;k<tailleCle/2;k++) {
-        newSubKeys[k]=subkeys[tailleCle-k];
-        newSubKeys[tailleCle-k]=subkeys[k];
+    for (int k=0;k<(tailleCle/2);k++) {
+        newSubKeys[k]=subkeys[tailleCle-k-1];
+        newSubKeys[tailleCle-k-1]=subkeys[k];
     }
-    newSubKeys[8]=subkeys[8];
     resultat = encyrption_DES(newSubKeys, crypted_content);
     return resultat;
 };
@@ -272,10 +287,19 @@ string convert_binary_text(string binary_key) {
 string DES_main(string content, int start_ascii, int end_ascii, int way) {
 
     vector<string> char_key{ "0", "1" };
+    cout << "debut" <<endl;
     key = key_main(way, "text", 64, start_ascii, end_ascii, char_key);
-
-    // On convertit le texte au format binaire
-    string content_binary = convert_text_binary(content);
+    string content_binary;
+    if(way == 1) {
+    // On convertit le texte au format binaire si on est dans la phase de cryptage
+    content_binary = convert_text_binary(content);
+    cout << "Le texte d'origine, v. binaire: " << content_binary << endl;
+    cout << "taille divise par 64: " << (content_binary.size()/64) << endl;
+    }
+    else {
+        //Sinon on récupère juste le texte déjà au format binaire
+        content_binary = content;
+    }
     // On récupère le multiple de 64 nécessaire pour créer les blocs
     int const debutZeros(content_binary.size()%64);
     int blocs = content_binary.size()/64;
@@ -286,10 +310,10 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
     }
     //Pour le dernier blocs, on récupère ce qu'il reste et on rajoute des 0 pour compléter
     string tempBlocFinal=content_binary.substr(64*blocs,debutZeros);
+    cout << "taille Actuelle: " << tempBlocFinal.size() << endl;
     for (int i = debutZeros;i<64;i++) {
         tempBlocFinal += "0";
     }
-
     //On vérifie si il y a un problème
     sous_blocs[blocs]=tempBlocFinal;
     if (tempBlocFinal.size() != 64) {
@@ -298,27 +322,41 @@ string DES_main(string content, int start_ascii, int end_ascii, int way) {
         return 0;
     }
     int const nombreBlocs(blocs+1);
-    string listeCryptage[nombreBlocs];
-    string texteCrypte;
     //On génère les sous-clés dans final_keys
     generate_subkeys(key);
-    //Pour chaque bloc, on utilise les sous-clés pour le cryptage et on récupère un texte crypté
-    for (int j=0;j<nombreBlocs;j++) {
-        string tempPart = encyrption_DES(final_keys,content);
-        listeCryptage[j] = tempPart;
-        texteCrypte += tempPart;
+    if(way == 1) {
+        string texteCrypte;
+        //Pour chaque bloc, on utilise les sous-clés pour le cryptage et on récupère un texte crypté
+        for (int j=0;j<nombreBlocs;j++) {
+            string tempPart = encyrption_DES(final_keys,sous_blocs[j]);
+            texteCrypte += tempPart;
+        }
+        cout << "Ceci est le texte crypte: " << texteCrypte << endl << endl;
+        return texteCrypte;
     }
-    cout << texteCrypte << endl << endl;
-    string texteRestitue;
-    //On décrypte ensuite chaque bloc
-    for (int l=0;l<nombreBlocs;l++) {
-        string tempPart = decryption_DES(final_keys,listeCryptage[l]);
-        listeCryptage[l] = tempPart;
-        texteRestitue += tempPart;
+    else {
+        //Si décyptage
+        string texteRestitue;
+        int const tailleCle(16);
+        string newSubKeys[tailleCle];
+        //On inverse les sous-clés
+        for (int k=0;k<(tailleCle/2);k++) {
+            newSubKeys[k]=final_keys[tailleCle-k-1];
+            newSubKeys[tailleCle-k-1]=final_keys[k];
+            cout << "final_key modifiée: " << newSubKeys[k] << endl;
+        }
+        //On décrypte ensuite chaque bloc
+        for (int l=0;l<nombreBlocs;l++) {
+            string tempPart = encyrption_DES(newSubKeys,sous_blocs[l]);
+            texteRestitue += tempPart;
+        }
+        cout << "Texte Restitué en binaire :" << texteRestitue << endl << endl;
+        //On enlève ensuite les 0 inutiles à la fin du dernier bloc en utilisant le nombre "debutZeros" défini au début
+        string texteRetourFinal = texteRestitue.substr(0,64*blocs+debutZeros-1);
+        cout << "Modulo 64: " << (texteRestitue.size()%64) << endl;
+        //Il reste à re-traduire le binaire en texte
+        cout << "Texte Restitué :" << texteRetourFinal << endl;
+        cout << "taille divise par 64: " << (texteRetourFinal.size()/64) << endl;
+        return texteRetourFinal;
     }
-    cout << "Texte Restitué en binaire :" << texteRestitue << endl << endl;
-    //On enlève ensuite les 0 inutiles à la fin du dernier bloc en utilisant le nombre "debutZeros" défini au début
-    string texteRetourFinal = texteRestitue.substr(0,64*blocs+debutZeros);
-    //Il reste à re-traduire le binaire en texte
-    return texteRetourFinal;
 };
